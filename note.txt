@@ -1,0 +1,18 @@
+-create a blog application, users will be able to register,log in,create posts,edit,delete
+
+-How to organize code ??
+-The project directory will contain:
++flaskr/, a Python package containing your application code and files.
++tests/, a directory containing test modules.
++.venv/, a Python virtual environment where Flask and other dependencies are installed.
+-Run the application : flask --app flaskr run --debug
+-Connect to database
+-g is a special object that is unique for each request
+-current_app is a special object that points to the Flask application handling the request
+-Blueprint : A Blueprint is a way to organize a group of related views and other code. 
+Rather than registering views and other code directly with an application, 
+they are registered with a blueprint.
+Then the blueprint is registered with the application when it is available in the factory function.
+-https://flask.palletsprojects.com/en/3.0.x/tutorial/views/ (explain register function)
+-Template
+-static file (add some CSS + bootstrap)

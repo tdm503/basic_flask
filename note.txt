@@ -16,3 +16,7 @@ Then the blueprint is registered with the application when it is available in th
 -https://flask.palletsprojects.com/en/3.0.x/tutorial/views/ (explain register function)
 -Template
 -static file (add some CSS + bootstrap)
+-Writing unit test:
+You’ll use pytest and coverage to test and measure your code. Install them both:
+$ pip install pytest coverage
+$ pytest to run test

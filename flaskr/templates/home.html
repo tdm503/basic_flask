@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}
+Home - Flaskr
+{% endblock %}
+
+{% block header %}
+<h2>Welcome to Flaskr</h2>
+{% endblock %}
+
+{% block content %}
+<article>
+  <h3>Latest Posts</h3>
+  <ul>
+    {% for post in posts %}
+      <li>
+        <h4>{{ post['title'] }}</h4>
+        <p>{{ post['body'] }}</p>
+        <small>by {{ post['author'] }} on {{ post['created'] }}</small>
+      </li>
+    {% else %}
+      <li>No posts yet. Be the first to <a href="{{ url_for('create') }}">create one</a>.</li>
+    {% endfor %}
+  </ul>
+</article>
+{% endblock %}

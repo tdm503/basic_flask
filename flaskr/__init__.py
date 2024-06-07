@@ -31,5 +31,8 @@ def create_app(test_config=None):
     @app.route('/hello')
     def hello():
         return 'Hello, World!'
-
+    
+    @app.route('/home')
+    def home():
+        return 'home.html'
     return app

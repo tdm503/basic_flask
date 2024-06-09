@@ -8,6 +8,10 @@ from flaskr.db import get_db
 
 bp = Blueprint('blog', __name__)
 
+@bp.route('/admin')
+def admin():
+    return render_template('blog/admin.html')
+
 @bp.route('/')
 def index():
     db = get_db()

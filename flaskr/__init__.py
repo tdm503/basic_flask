@@ -35,4 +35,8 @@ def create_app(test_config=None):
     @app.route('/home')
     def home():
         return 'home.html'
+    
+    @app.route('/admin')
+    def admin():
+        return 'admin.html'
     return app

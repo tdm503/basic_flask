@@ -10,7 +10,13 @@ bp = Blueprint('blog', __name__)
 
 @bp.route('/admin', methods=('GET', 'POST'))
 def admin():
-    return render_template('blog/admin.html')
+    db = get_db()
+    posts = db.execute(
+        'SELECT p.id, title, body, created, author_id, username'
+        ' FROM post p JOIN user u ON p.author_id = u.id'
+        ' ORDER BY created DESC'
+    ).fetchall()
+    return render_template('blog/admin.html',posts = posts)
 
 @bp.route('/')
 def index():
@@ -48,7 +54,18 @@ def create():
     return render_template('blog/create.html')
 
 def get_post(id, check_author=True):
-    post = get_db().execute(
+    role_mess = 'user'
+    role = get_db().execute(
+        'SELECT role FROM user WHERE id = ?',(id,)
+    )
+    if role == 'admin':
+        print('admin access success')
+        role_mess = 'admin'
+        post = get_db().execute(
+        'SELECT * FROM post'
+        ).fetchone()
+    else:
+        post = get_db().execute(
         'SELECT p.id, title, body, created, author_id, username'
         ' FROM post p JOIN user u ON p.author_id = u.id'
         ' WHERE p.id = ?',
@@ -58,9 +75,9 @@ def get_post(id, check_author=True):
     if post is None:
         abort(404, f"Post id {id} doesn't exist.")
 
-    if check_author and post['author_id'] != g.user['id']:
+    if check_author and post['author_id'] != g.user['id'] and role == 'user':
         abort(403)
-
+    flash(role_mess)
     return post
 
 
